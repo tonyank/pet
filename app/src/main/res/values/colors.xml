@@ -1,0 +1,8 @@
+<resources>
+    <color name="primary">#FF6F61</color>
+    <color name="primary_dark">#D84337</color>
+    <color name="accent">#FFAB91</color>
+    <color name="bubble_bg">#FFFDE7</color>
+    <color name="bubble_border">#FFE082</color>
+    <color name="bubble_text">#37474F</color>
+</resources>

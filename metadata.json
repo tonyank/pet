@@ -1,0 +1,6 @@
+{
+  "name": "U的桌宠",
+  "description": "Android桌面宠物应用 - 悬浮窗互动桌宠、气泡对话、亲吻动作与角色切换",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

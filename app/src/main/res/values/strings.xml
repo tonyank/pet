@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">U的桌宠</string>
+    <string name="pet_default_name">小傻子</string>
+    <string name="pet_status_running">桌宠正在屏幕上呼呼大睡中…</string>
+    <string name="pet_status_stopped">桌宠未启动</string>
+    <string name="action_start_pet">召唤桌宠到桌面</string>
+    <string name="action_stop_pet">收回桌宠</string>
+    <string name="permission_overlay_title">需要悬浮窗权限</string>
+    <string name="permission_overlay_desc">为了让“小傻子”出现在您的安卓桌面上，需要开启“在其他应用上层显示”权限。</string>
+    <string name="permission_grant">去授权</string>
+    <string name="notification_channel_name">桌宠前台运行服务</string>
+    <string name="notification_channel_desc">保持桌宠在桌面稳定活跃运行</string>
+</resources>

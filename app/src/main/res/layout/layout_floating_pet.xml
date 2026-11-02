@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/petRootContainer"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:padding="8dp">
+
+    <!-- Speech bubble positioned above the pet -->
+    <LinearLayout
+        android:id="@+id/bubbleLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center_horizontal"
+        android:background="@drawable/bg_speech_bubble"
+        android:elevation="8dp"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tvBubbleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="200dp"
+            android:textColor="@color/bubble_text"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- Main Pet Character Body -->
+    <FrameLayout
+        android:id="@+id/petBodyContainer"
+        android:layout_width="110dp"
+        android:layout_height="140dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginTop="50dp">
+
+        <!-- Sleeping Pet Avatar -->
+        <ImageView
+            android:id="@+id/ivPetSleep"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/avatar_sleep"
+            android:background="#20000000" />
+
+        <!-- Kissing Animation View (shown when kiss action is triggered) -->
+        <ImageView
+            android:id="@+id/ivPetKiss"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/kiss_anim"
+            android:visibility="gone" />
+
+        <!-- Sleeping 'zZZ' animated floating indicator -->
+        <TextView
+            android:id="@+id/tvSleepZzz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|end"
+            android:layout_margin="4dp"
+            android:text="zZZ…"
+            android:textColor="#FFF59D"
+            android:textSize="14sp"
+            android:textStyle="bold|italic"
+            android:shadowColor="#80000000"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="3" />
+
+    </FrameLayout>
+
+</FrameLayout>

@@ -1,0 +1,6 @@
+<resources>
+    <style name="Theme.PetApp" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:statusBarColor">#FF6F61</item>
+        <item name="android:navigationBarColor">#FAFAFA</item>
+    </style>
+</resources>
