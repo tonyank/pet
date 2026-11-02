@@ -5,7 +5,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
@@ -149,8 +148,7 @@ fun DashboardScreen(
                             .height(56.dp)
                             .padding(bottom = 8.dp),
                         contentAlignment = Alignment.BottomCenter
-                    ) {
-                        AnimatedVisibility(visible = previewBubbleText != null) {
+                        if (previewBubbleText != null) {
                             Surface(
                                 color = Color(0xFFFFFDE7),
                                 shape = RoundedCornerShape(16.dp),
