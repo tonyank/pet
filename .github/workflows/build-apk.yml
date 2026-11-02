@@ -26,17 +26,18 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
-          cache: 'gradle'
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v6
+        with:
+          gradle-version: '8.9'
 
       - name: Decode Keystore
         if: ${{ github.event.inputs.build_type == 'release' }}
         run: |
-          mkdir -p app/build
+          mkdir -p app
           if [ -n "${{ secrets.KEYSTORE_BASE64 }}" ]; then
-            echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > app/build/release.keystore
+            echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > app/release.keystore
             echo "Keystore decoded successfully"
           else
             echo "Warning: KEYSTORE_BASE64 secret not set, will fall back to debug signing"
@@ -52,10 +53,16 @@ jobs:
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: |
-          if [ "${{ github.event.inputs.build_type }}" = "release" ]; then
-            ./gradlew assembleRelease --stacktrace
+          if [ -x "./gradlew" ]; then
+            BUILD_TOOL="./gradlew"
           else
-            ./gradlew assembleDebug --stacktrace
+            BUILD_TOOL="gradle"
+          fi
+          echo "Using build tool: $BUILD_TOOL"
+          if [ "${{ github.event.inputs.build_type }}" = "release" ]; then
+            $BUILD_TOOL assembleRelease --stacktrace
+          else
+            $BUILD_TOOL assembleDebug --stacktrace
           fi
 
       - name: Locate Generated APK

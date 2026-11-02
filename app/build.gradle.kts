@@ -31,14 +31,20 @@ android {
             val keyAlias = System.getenv("KEY_ALIAS")
             val keyPassword = System.getenv("KEY_PASSWORD")
 
-            if (!keystoreBase64.isNullOrEmpty()) {
-                val keystoreFile = File(buildDir, "release.keystore")
-                keystoreFile.parentFile?.mkdirs()
+            if (!keystoreBase64.isNullOrEmpty() && !keyAlias.isNullOrEmpty()) {
+                val keystoreFile = File(projectDir, "release.keystore")
                 keystoreFile.writeBytes(Base64.getDecoder().decode(keystoreBase64))
                 storeFile = keystoreFile
                 storePassword = keystorePassword
                 this.keyAlias = keyAlias
                 this.keyPassword = keyPassword
+            } else {
+                // Fall back to debug keystore for dry-run or if secrets are not yet configured
+                val debugConfig = signingConfigs.getByName("debug")
+                storeFile = debugConfig.storeFile
+                storePassword = debugConfig.storePassword
+                this.keyAlias = debugConfig.keyAlias
+                this.keyPassword = debugConfig.keyPassword
             }
         }
     }

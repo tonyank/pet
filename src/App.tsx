@@ -191,24 +191,28 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Java 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
           java-version: '17'
-          cache: 'gradle'
 
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
+        uses: gradle/actions/setup-gradle@v6
+        with:
+          gradle-version: '8.9'
 
       - name: Decode Keystore
         if: \${{ github.event.inputs.build_type == 'release' }}
         run: |
-          mkdir -p app/build
+          mkdir -p app
           if [ -n "\${{ secrets.KEYSTORE_BASE64 }}" ]; then
-            echo "\${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > app/build/release.keystore
+            echo "\${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > app/release.keystore
+            echo "Keystore decoded successfully"
+          else
+            echo "Warning: KEYSTORE_BASE64 secret not set, will fall back to debug signing"
           fi
 
       - name: Grant execute permission for gradlew
@@ -221,16 +225,26 @@ jobs:
           KEY_ALIAS: \${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: \${{ secrets.KEY_PASSWORD }}
         run: |
-          if [ "\${{ github.event.inputs.build_type }}" = "release" ]; then
-            ./gradlew assembleRelease --stacktrace
+          if [ -x "./gradlew" ]; then
+            BUILD_TOOL="./gradlew"
           else
-            ./gradlew assembleDebug --stacktrace
+            BUILD_TOOL="gradle"
+          fi
+          echo "Using build tool: \$BUILD_TOOL"
+          if [ "\${{ github.event.inputs.build_type }}" = "release" ]; then
+            \$BUILD_TOOL assembleRelease --stacktrace
+          else
+            \$BUILD_TOOL assembleDebug --stacktrace
           fi
 
       - name: Locate Generated APK
         id: find_apk
         run: |
           APK_FILE=\$(find app/build/outputs/apk -type f -name "*.apk" | head -n 1)
+          if [ -z "\$APK_FILE" ]; then
+            echo "Error: No APK file found in app/build/outputs/apk"
+            exit 1
+          fi
           echo "Found APK: \$APK_FILE"
           echo "apk_path=\$APK_FILE" >> \$GITHUB_OUTPUT
 
