@@ -148,6 +148,7 @@ fun DashboardScreen(
                             .height(56.dp)
                             .padding(bottom = 8.dp),
                         contentAlignment = Alignment.BottomCenter
+                    ) {
                         if (previewBubbleText != null) {
                             Surface(
                                 color = Color(0xFFFFFDE7),
